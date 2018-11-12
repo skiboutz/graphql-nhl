@@ -35,49 +35,29 @@ const Resolvers = {
 		}
 	},
   Query: {
-    getPlayer: async (_, { id }) => {
-      return await returnPlayer(id)
+    getPlayer: async (_, { id }, { dataSources }) => {
+      return await dataSources.playerAPI.returnPlayer(id)
     },    
-    getTeams: async() => {
-      const teams = await axios.get(`https://statsapi.web.nhl.com/api/v1/teams`)
-      .then(response => {
-        return response.data.teams
-      })
-      return teams
+    getTeams: async(_,{},{ dataSources }) => {
+      return await dataSources.teamAPI.returnTeams()
     }, 
-    getTeam: async (_, { id }) => {
-      return await returnTeam(id)
+    getTeam:  async(_,{id},{ dataSources }) => {
+      return await dataSources.teamAPI.returnTeam(id)
 		},
-		getDivisions: async() => {
-      const divisions = await axios.get(`https://statsapi.web.nhl.com/api/v1/divisions`)
-      .then(response => {
-      return response.data.divisions
-      })
-      return divisions
+		getDivisions: async(_,{},{ dataSources }) => {
+      return await dataSources.divisionAPI.returnDivisions()
 		},
-		getDivision: async(_, { id }) => {
-      return await returnDivision(id)
+		getDivision: async(_,{id},{ dataSources }) => {
+      return await dataSources.divisionAPI.returnDivision(id)
 		},
-		getConferences: async() => {
-      const conferences = await axios.get(`https://statsapi.web.nhl.com/api/v1/conferences`)
-      .then(response => {
-      return response.data.conferences
-      })
-      return conferences
+		getConferences: async(_,{},{ dataSources }) => {
+      return await dataSources.conferenceAPI.returnConferences()
 		},
-		getConference: async(_, {id}) => {
-      return await returnConference(id)
+		getConference: async(_, {id}, { dataSources }) => {
+      return await dataSources.conferenceAPI.returnConference(id)
 		},
 
   }
-}
-
-const returnConference = async (id) => {
-	const conference = await axios.get(`https://statsapi.web.nhl.com/api/v1/conferences/${id}`)
-	.then(response => {
-	return response.data.conferences[0]
-	})
-	return conference
 }
 
 const returnDivision = async (id) => {

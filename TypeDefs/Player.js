@@ -1,5 +1,6 @@
 const Player = `
   type Player {
+		id: Int
     fullName: String
     firstName: String
     lastName: String
