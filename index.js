@@ -13,7 +13,8 @@ const Query = `
 		getTeam(id: Int): Team,
 		getDivisions: [Division],
 		getDivision(id: Int): Division,
-		getConferences: [Conference]
+		getConferences: [Conference],
+		getConference(id: Int): Conference
   }
 `
 

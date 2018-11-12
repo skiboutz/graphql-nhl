@@ -7,8 +7,7 @@ const Team = `
     locationName: String
     firstYearOfPlay: String
     division: Division
-    conferenceName: String
-    conferenceId: Int
+    conference: Conference
     franchiseId: Int
     venueName: String
     venueCity: String
