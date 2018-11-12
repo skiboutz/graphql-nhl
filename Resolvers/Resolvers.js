@@ -6,20 +6,9 @@ const Resolvers = {
 			return returnTeam(root.currentTeam.id)
     }
   },
-  Teams: {
-    franchiseId: root => {
-      return root.franchise.franchiseId
-    },
-	},
 	Team: {
-    divisionName: root => {
-      return root.division.name
-    },
-    divisionShort: root => {
-      return root.division.nameShort
-    },
-    divisionId: root => {
-      return root.division.id
+    division: root => {
+      return returnDivision(root.division.id)
     },
     conferenceName: root => {
       return root.conference.name
@@ -61,10 +50,36 @@ const Resolvers = {
     }, 
     getTeam: async (_, { id }) => {
       return await returnTeam(id)
-    },
+		},
+		getDivisions: async() => {
+      const divisions = await axios.get(`https://statsapi.web.nhl.com/api/v1/divisions`)
+      .then(response => {
+      return response.data.divisions
+      })
+      return divisions
+		},
+		getDivision: async(_, { id }) => {
+      return await returnDivision(id)
+		},
+		getConferences: async() => {
+      const conferences = await axios.get(`https://statsapi.web.nhl.com/api/v1/conferences`)
+      .then(response => {
+      return response.data.conferences
+      })
+      return conferences
+		},
+
   }
 }
 
+const returnDivision = async (id) => {
+	const division = await axios.get(`https://statsapi.web.nhl.com/api/v1/divisions/${id}`)
+	.then(response => {
+		return response.data.divisions[0]
+	})
+	return division
+
+}
 const returnTeam = async (id) => {
 	const team = await axios.get(`https://statsapi.web.nhl.com/api/v1/teams/${id}`)
 	.then(response => {
