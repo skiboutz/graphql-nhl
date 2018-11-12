@@ -1,44 +1,54 @@
 const { ApolloServer, gql } = require('apollo-server');
+const axios = require('axios')
 
-// This is a (sample) collection of books we'll be able to query
-// the GraphQL server for.  A more complete example might fetch
-// from an existing data source like a REST API or database.
-const books = [
-  {
-    title: 'Harry Potter and the Chamber of Secrets',
-    author: 'J.K. Rowling',
-  },
-  {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton',
-  },
-];
-
-// Type definitions define the "shape" of your data and specify
-// which ways the data can be fetched from the GraphQL server.
 const typeDefs = gql`
-  # Comments in GraphQL are defined with the hash (#) symbol.
-
-  # This "Book" type can be used in other type declarations.
-  type Book {
-    title: String
-    author: String
+  type Player {
+    fullName: String
+    firstName: String
+    lastName: String
+    primaryNumber: Int
+    birthDate: String
+    currentAge: Int
+    birthCity: String
+    birthStateProvince: String
+    birthCountry: String
+    nationality: String
+    height: String
+    weight: Int
+    active: Boolean
+    alternateCaptain: Boolean
+    captain: Boolean
+    rookie: Boolean
+    shootsCatches: String
+    rosterStatus: String
+    teamName: String
+    teamId: Int
   }
 
-  # The "Query" type is the root of all GraphQL queries.
-  # (A "Mutation" type will be covered later on.)
   type Query {
-    books: [Book]
+    getPlayer(id: Int): Player
   }
 `;
 
-// Resolvers define the technique for fetching the types in the
-// schema.  We'll retrieve books from the "books" array above.
 const resolvers = {
-  Query: {
-    books: () => books,
+  Player: {
+    teamName: root => {
+      return root.currentTeam.name 
+    },
+    teamId: root => {
+      return root.currentTeam.id
+    }
   },
-};
+  Query: {
+    getPlayer: async (_, { id }) => {
+      const player = await axios.get(`https://statsapi.web.nhl.com/api/v1/people/${id}`)
+      .then(response => {
+        return response.data.people[0]
+      })
+      return player
+    },
+  }
+}
 
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
