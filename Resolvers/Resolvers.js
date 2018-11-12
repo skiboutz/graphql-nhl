@@ -2,11 +2,8 @@ const axios = require('axios')
 
 const Resolvers = {
   Player: {
-    teamName: root => {
-      return root.currentTeam.name 
-    },
-    teamId: root => {
-      return root.currentTeam.id
+    teamInfo: root => {
+			return returnTeam(root.currentTeam.id)
     }
   },
   Teams: {
@@ -63,13 +60,17 @@ const Resolvers = {
       return teams
     }, 
     getTeam: async (_, { id }) => {
-      const team = await axios.get(`https://statsapi.web.nhl.com/api/v1/teams/${id}`)
-      .then(response => {
-        return response.data.teams[0]
-      })
-      return team
+      return await returnTeam(id)
     },
   }
+}
+
+const returnTeam = async (id) => {
+	const team = await axios.get(`https://statsapi.web.nhl.com/api/v1/teams/${id}`)
+	.then(response => {
+		return response.data.teams[0]
+	})
+	return team
 }
 
 const returnPlayer = async (id) => {

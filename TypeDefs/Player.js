@@ -18,8 +18,7 @@ const Player = `
     rookie: Boolean
     shootsCatches: String
     rosterStatus: String
-    teamName: String
-    teamId: Int
+    teamInfo: Team
   }
 `
 module.exports = Player
