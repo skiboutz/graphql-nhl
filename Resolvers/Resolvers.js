@@ -11,7 +11,7 @@ const Resolvers = {
       return returnDivision(root.division.id)
     },
     conference: root => {
-      return returnDivision(root.conference.id)
+      return returnConference(root.conference.id)
     },
     venueName: root => {
       return root.venue.name
@@ -68,6 +68,15 @@ const returnDivision = async (id) => {
 	return division
 
 }
+
+const returnConference = async (id) => {
+	const conference = await axios.get(`https://statsapi.web.nhl.com/api/v1/conferences/${id}`)
+	.then(response => {
+		return response.data.conferences[0]
+	})
+	return conference
+}
+
 const returnTeam = async (id) => {
 	const team = await axios.get(`https://statsapi.web.nhl.com/api/v1/teams/${id}`)
 	.then(response => {
