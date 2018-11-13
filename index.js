@@ -25,22 +25,22 @@ const Query = `
 `
 
 const schema = makeExecutableSchema({
-  typeDefs: [ Query, Player, Team, Division, Conference, Venue, TimeZone ],
-	resolvers: Resolvers
-});
+  typeDefs: [Query, Player, Team, Division, Conference, Venue, TimeZone],
+  resolvers: Resolvers,
+})
 
-const server = new ApolloServer({ 
-	schema,
-	dataSources: () => {
-		return {
-			playerAPI: new PlayerAPI(),
-			conferenceAPI: new ConferenceAPI(),
-			divisionAPI: new DivisionAPI(),
-			teamAPI: new TeamAPI()
-		}
-	}
-});
+const server = new ApolloServer({
+  schema,
+  dataSources: () => {
+    return {
+      playerAPI: new PlayerAPI(),
+      conferenceAPI: new ConferenceAPI(),
+      divisionAPI: new DivisionAPI(),
+      teamAPI: new TeamAPI(),
+    }
+  },
+})
 
 server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+  console.log(`🚀  Server ready at ${url}`)
+})
