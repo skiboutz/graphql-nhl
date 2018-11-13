@@ -8,22 +8,6 @@ class TeamAPI extends RESTDataSource {
 	
 	async returnTeam(id) {
 		const team = await this.get(`/${id}`)
-		// //TODO: Refactor this with reduce
-		// let newTeam = team.teams[0] 
-		// newTeam.venueName = newTeam.venue.name 
-		// newTeam.venueCity = newTeam.venue.city 
-		// newTeam.venueTimeZone = newTeam.venue.timeZone.tz
-		// console.log(team)
-
-		// // const newTeam =  team.teams[0].reduce(( accumulator, data ) => ({
-		// // 	...accumulator,
-		// // 	...data,
-		// // 	venueName: data.venue.name,
-		// // 	venueCity: data.venu.city,
-		// // 	venueTimeZone: data.venue.timeZone.tz
-
-		// // }),{})
-		// console.log(newTeam)
 		return team.teams[0]
 	}
 	
