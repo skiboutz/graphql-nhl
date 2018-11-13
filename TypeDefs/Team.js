@@ -9,9 +9,7 @@ const Team = `
     division: Division
     conference: Conference
     franchiseId: Int
-    venueName: String
-    venueCity: String
-    venueTimeZone: String
+    venue: Venue
 		officialSiteUrl: String
 		roster:[Player]
   }

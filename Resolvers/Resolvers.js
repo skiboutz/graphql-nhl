@@ -1,19 +1,6 @@
 const axios = require('axios')
 
 const Resolvers = {
-	Team: {
-		roster: async (root) => {
-			const roster = await(axios.get(`https://statsapi.web.nhl.com/api/v1/teams/${root.id}?expand=team.roster`))
-			.then(response => {
-				const rosterPositions = response.data.teams[0].roster.roster
-				const promises = rosterPositions.map(item => {
-					return returnPlayer(item.person.id)
-				})
-				return Promise.all(promises)
-			})
-			return roster
-		}
-	},
   Query: {
     getPlayer: async (_, { id }, { dataSources }) => {
 			const player = await dataSources.playerAPI.returnPlayer(id)
@@ -29,11 +16,13 @@ const Resolvers = {
     getTeam:  async(_,{id},{ dataSources }) => {
 			const team = await dataSources.teamAPI.returnTeam(id)
 			.then(async team => {
-				team.division = dataSources.divisionAPI.returnDivision(team.division.id)
-				return team
-			})
-			.then(async team => {
-				team.conference = dataSources.conferenceAPI.returnConference(team.conference.id)
+				console.log(team)
+				const roster = await dataSources.teamAPI.returnRoster(team.id)
+				const promises = roster.map(async person => {
+					return await dataSources.playerAPI.returnPlayer(person.person.id)
+					
+				})
+				team.roster = Promise.all(promises)
 				return team
 			})
 			return team
