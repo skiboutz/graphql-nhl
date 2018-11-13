@@ -1,5 +1,3 @@
-const axios = require('axios')
-
 const Resolvers = {
   Query: {
     getPlayer: async (_, { id }, { dataSources }) => {
@@ -16,7 +14,6 @@ const Resolvers = {
     getTeam:  async(_,{id},{ dataSources }) => {
 			const team = await dataSources.teamAPI.returnTeam(id)
 			.then(async team => {
-				console.log(team)
 				const roster = await dataSources.teamAPI.returnRoster(team.id)
 				const promises = roster.map(async person => {
 					return await dataSources.playerAPI.returnPlayer(person.person.id)
@@ -43,11 +40,4 @@ const Resolvers = {
   }
 }
 
-const returnPlayer = async (id) => {
-	const player = await axios.get(`https://statsapi.web.nhl.com/api/v1/people/${id}`)
-	.then(response => {
-		return response.data.people[0]
-	})
-	return player
-}
 module.exports = Resolvers
