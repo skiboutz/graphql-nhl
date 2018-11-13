@@ -8,7 +8,13 @@ class TeamAPI extends RESTDataSource {
 	
 	async returnTeam(id) {
 		const team = await this.get(`/${id}`)
-		return team.teams[0]
+
+		//TODO: Refactor this with reduce
+		let newTeam = team.teams[0] 
+		newTeam.venueName = newTeam.venue.name 
+		newTeam.venueCity = newTeam.venue.city 
+		newTeam.venueTimeZone = newTeam.venue.timeZone.tz
+		return newTeam
 	}
 	
 	async returnTeams() {
@@ -18,7 +24,9 @@ class TeamAPI extends RESTDataSource {
 
 	async returnRoster(id) {
 		const roster = await this.get(`/${id}?expand=team.roster`)
+		return roster.teams[0].roster
 	}
 }
 
 module.exports = TeamAPI
+

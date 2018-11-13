@@ -1,27 +1,7 @@
 const axios = require('axios')
 
 const Resolvers = {
-  Player: {
-    teamInfo: root => {
-			return returnTeam(root.currentTeam.id)
-    }
-  },
 	Team: {
-    division: root => {
-      return returnDivision(root.division.id)
-    },
-    conference: root => {
-      return returnConference(root.conference.id)
-    },
-    venueName: root => {
-      return root.venue.name
-    },
-    venueCity: root => {
-      return root.venue.city
-    },
-    venueTimeZone: root => {
-      return root.venue.timeZone.tz
-		},
 		roster: async (root) => {
 			const roster = await(axios.get(`https://statsapi.web.nhl.com/api/v1/teams/${root.id}?expand=team.roster`))
 			.then(response => {
@@ -36,13 +16,27 @@ const Resolvers = {
 	},
   Query: {
     getPlayer: async (_, { id }, { dataSources }) => {
-      return await dataSources.playerAPI.returnPlayer(id)
+			const player = await dataSources.playerAPI.returnPlayer(id)
+			.then(async player => {
+				player.teamInfo = await dataSources.teamAPI.returnTeam(player.currentTeam.id)
+				return player
+			})
+			return player
     },    
     getTeams: async(_,{},{ dataSources }) => {
       return await dataSources.teamAPI.returnTeams()
     }, 
     getTeam:  async(_,{id},{ dataSources }) => {
-      return await dataSources.teamAPI.returnTeam(id)
+			const team = await dataSources.teamAPI.returnTeam(id)
+			.then(async team => {
+				team.division = dataSources.divisionAPI.returnDivision(team.division.id)
+				return team
+			})
+			.then(async team => {
+				team.conference = dataSources.conferenceAPI.returnConference(team.conference.id)
+				return team
+			})
+			return team
 		},
 		getDivisions: async(_,{},{ dataSources }) => {
       return await dataSources.divisionAPI.returnDivisions()
@@ -58,31 +52,6 @@ const Resolvers = {
 		},
 
   }
-}
-
-const returnDivision = async (id) => {
-	const division = await axios.get(`https://statsapi.web.nhl.com/api/v1/divisions/${id}`)
-	.then(response => {
-		return response.data.divisions[0]
-	})
-	return division
-
-}
-
-const returnConference = async (id) => {
-	const conference = await axios.get(`https://statsapi.web.nhl.com/api/v1/conferences/${id}`)
-	.then(response => {
-		return response.data.conferences[0]
-	})
-	return conference
-}
-
-const returnTeam = async (id) => {
-	const team = await axios.get(`https://statsapi.web.nhl.com/api/v1/teams/${id}`)
-	.then(response => {
-		return response.data.teams[0]
-	})
-	return team
 }
 
 const returnPlayer = async (id) => {
