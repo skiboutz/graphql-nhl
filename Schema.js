@@ -10,9 +10,9 @@ const { makeExecutableSchema } = require('graphql-tools')
 
 const Query = `
   type Query {
-    getPlayer(id: Int): Player,
+    getPlayer(id: Int!): Player,
 		getTeams: [Team],
-		getTeam(id: Int): Team,
+		getTeam(id: Int, getRoster: Boolean = false): Team,
 		getDivisions: [Division],
 		getDivision(id: Int): Division,
 		getConferences: [Conference],

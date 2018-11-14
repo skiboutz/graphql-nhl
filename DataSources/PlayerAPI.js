@@ -7,7 +7,10 @@ class PlayerAPI extends RESTDataSource {
   }
   async returnPlayer(id) {
     const playerData = await this.get(`/${id}`)
-    return playerData.people[0]
+    const player = playerData.people[0]
+    player.position = player.primaryPosition.name 
+    player.positionCode = player.primaryPosition.code 
+    return player
   }
 }
 

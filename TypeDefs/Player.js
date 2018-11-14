@@ -20,6 +20,8 @@ const Player = `
     shootsCatches: String
     rosterStatus: String
     teamInfo: Team
+    position: String
+    positionCode: String
   }
 `
 module.exports = Player
