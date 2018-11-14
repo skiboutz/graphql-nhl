@@ -4,9 +4,11 @@ const Resolvers = {
       const player = await dataSources.playerAPI
         .returnPlayer(id)
         .then(async player => {
-          player.teamInfo = await dataSources.teamAPI.returnTeam(
-            player.currentTeam.id
-          )
+          if(player.active === true){
+            player.teamInfo = await dataSources.teamAPI.returnTeam(
+              player.currentTeam.id
+            )
+          }
           return player
         })
       return player
