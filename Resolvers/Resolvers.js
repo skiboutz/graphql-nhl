@@ -17,17 +17,14 @@ const Resolvers = {
       return await dataSources.teamAPI.returnTeams()
     },
     getTeam: async (_, { id, getRoster }, { dataSources }) => {
-      const team = await dataSources.teamAPI.returnTeam(id).then(async team => {
-        if( getRoster === true ) {
-          const roster = await dataSources.teamAPI.returnRoster(team.id)
-          const promises = roster.map(async person => {
-            return await dataSources.playerAPI.returnPlayer(person.person.id)
-          })
-          team.roster = Promise.all(promises)
-          return team
-        } else {
-          return team
-        }
+      const team = await dataSources.teamAPI.returnTeam(id)
+      .then(async team => {
+        const roster = await dataSources.teamAPI.returnRoster(team.id)
+        const promises = roster.map(async person => {
+          return await dataSources.playerAPI.returnPlayer(person.person.id)
+        })
+        team.roster = Promise.all(promises)
+        return team
       })
       return team
     },

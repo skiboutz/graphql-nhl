@@ -12,7 +12,7 @@ const Query = `
   type Query {
     getPlayer(id: Int!): Player,
 		getTeams: [Team],
-		getTeam(id: Int, getRoster: Boolean = false): Team,
+		getTeam(id: Int): Team,
 		getDivisions: [Division],
 		getDivision(id: Int): Division,
 		getConferences: [Conference],
