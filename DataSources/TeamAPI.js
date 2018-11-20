@@ -20,6 +20,11 @@ class TeamAPI extends RESTDataSource {
     const roster = await this.get(`/${id}?expand=team.roster`)
     return roster.teams[0].roster.roster
   }
+
+  async returnStats(id) {
+    const stats = await this.get(`/${id}?expand=team.stats`)
+    return stats.teams[0].teamStats[0].splits[0].stat
+  }
 }
 
 module.exports = TeamAPI

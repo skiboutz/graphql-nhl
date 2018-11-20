@@ -11,7 +11,8 @@ const Team = `
     franchiseId: Int
     venue: Venue
 		officialSiteUrl: String
-		players:[Player]
+    players:[Player]
+    stats: TeamStats
   }
 `
 

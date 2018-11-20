@@ -6,7 +6,7 @@ const Resolvers = {
   },
   Team: {
     players: async (root, {}, { dataSources }) => {
-      const players = await dataSources.teamAPI.returnRoster( root.id)
+      const players = await dataSources.teamAPI.returnRoster( root.id )
       const promises = players.map(async player => {
         return await dataSources.playerAPI.returnPlayer(player.person.id)
       })
@@ -17,7 +17,10 @@ const Resolvers = {
     },
     conference: async( root, {}, { dataSources }) => {
       return await dataSources.conferenceAPI.returnConference(root.conference.id)
-    }
+    },
+    stats: async( root, {}, { dataSources }) => {
+      return await dataSources.teamAPI.returnStats(root.id)
+    },
   },
   Query: {
     getPlayer: async (_, { id }, { dataSources }) => {
