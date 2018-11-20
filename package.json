@@ -1,14 +1,14 @@
 {
   "name": "graph-nhl",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "A NodeJS / GraphQL wrapper for the NHL Stats API",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["node", "GraphQL", "Apollo Server"],
+  "author": "Rick Calder",
+  "license": "MIT",
   "dependencies": {
     "apollo-datasource-rest": "^0.2.0",
     "apollo-server": "^2.2.0",
