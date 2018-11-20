@@ -11,7 +11,7 @@ const Team = `
     franchiseId: Int
     venue: Venue
 		officialSiteUrl: String
-		roster:[Player]
+		players:[Player]
   }
 `
 

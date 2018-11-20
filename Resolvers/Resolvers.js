@@ -1,32 +1,34 @@
 const Resolvers = {
+  Player: {
+    team:  async (root, {}, { dataSources }) => {
+      return await dataSources.teamAPI.returnTeam( root.currentTeam.id )
+    },
+  },
+  Team: {
+    players: async (root, {}, { dataSources }) => {
+      const players = await dataSources.teamAPI.returnRoster( root.id)
+      const promises = players.map(async player => {
+        return await dataSources.playerAPI.returnPlayer(player.person.id)
+      })
+      return Promise.all(promises)
+    },
+    division: async( root, {}, { dataSources }) => {
+      return await dataSources.divisionAPI.returnDivision(root.division.id)
+    },
+    conference: async( root, {}, { dataSources }) => {
+      return await dataSources.conferenceAPI.returnConference(root.conference.id)
+    }
+  },
   Query: {
     getPlayer: async (_, { id }, { dataSources }) => {
-      const player = await dataSources.playerAPI
-        .returnPlayer(id)
-        .then(async player => {
-          if(player.active === true){
-            player.teamInfo = await dataSources.teamAPI.returnTeam(
-              player.currentTeam.id
-            )
-          }
-          return player
-        })
-      return player
+      return await dataSources.playerAPI.returnPlayer(id)
+      
     },
     getTeams: async (_, {}, { dataSources }) => {
       return await dataSources.teamAPI.returnTeams()
     },
     getTeam: async (_, { id, getRoster }, { dataSources }) => {
-      const team = await dataSources.teamAPI.returnTeam(id)
-      .then(async team => {
-        const roster = await dataSources.teamAPI.returnRoster(team.id)
-        const promises = roster.map(async person => {
-          return await dataSources.playerAPI.returnPlayer(person.person.id)
-        })
-        team.roster = Promise.all(promises)
-        return team
-      })
-      return team
+      return await dataSources.teamAPI.returnTeam(id)
     },
     getDivisions: async (_, {}, { dataSources }) => {
       return await dataSources.divisionAPI.returnDivisions()

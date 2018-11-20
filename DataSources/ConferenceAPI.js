@@ -13,7 +13,6 @@ class ConferenceAPI extends RESTDataSource {
 
   async returnConferences() {
     const conference = await this.get(`/`)
-    console.log(conference)
     return conference.conferences
   }
 }

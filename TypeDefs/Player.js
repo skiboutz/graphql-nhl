@@ -19,7 +19,7 @@ const Player = `
     rookie: Boolean
     shootsCatches: String
     rosterStatus: String
-    teamInfo: Team
+    team: Team
     position: String
     positionCode: String
   }

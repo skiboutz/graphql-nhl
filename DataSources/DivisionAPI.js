@@ -13,7 +13,6 @@ class DivisionAPI extends RESTDataSource {
 
   async returnDivisions() {
     const division = await this.get(`/`)
-    console.log(division)
     return division.divisions
   }
 }
