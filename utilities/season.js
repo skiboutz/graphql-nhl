@@ -1,5 +1,5 @@
 const validateSeasons = (season) => {
-  //Ensure the years are valid length and format
+  //Ensure the years are valid length
   if( season.toString().length !== 8 ) {
     throw new Error('season must be 8 digits representing 2 consecutive years')
   }
