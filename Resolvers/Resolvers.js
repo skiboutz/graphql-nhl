@@ -38,6 +38,10 @@ const Resolvers = {
       validateSeasons(season)
       return await dataSources.teamAPI.returnTeam(id, season)
     },
+    getTeamByName: async (_, { name, season }, { dataSources }) => {
+      validateSeasons(season)
+      return await dataSources.teamAPI.returnTeamByName(name, season)
+    },
     getDivisions: async (_, {}, { dataSources }) => {
       return await dataSources.divisionAPI.returnDivisions()
     },

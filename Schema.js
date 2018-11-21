@@ -14,6 +14,7 @@ const Query = `
     getPlayer(id: Int!): Player!,
 		getTeams(season: Int!): [Team!]!,
 		getTeam(id: Int!, season: Int!): Team!,
+		getTeamByName(name: String!, season: Int!): Team!,
 		getDivisions: [Division!]!,
 		getDivision(id: Int!): Division!,
 		getConferences: [Conference!]!,

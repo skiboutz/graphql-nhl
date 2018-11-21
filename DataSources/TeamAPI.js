@@ -12,6 +12,14 @@ class TeamAPI extends RESTDataSource {
     return team.teams[0]
   }
 
+  async returnTeamByName(name, season) {
+    const teams = await this.get(`?season=${season}`)
+    const thisTeam = teams.teams.filter(team => team.name === name || team.teamName === name)
+    thisTeam[0].season = season
+    console.log(thisTeam[0])
+    return thisTeam[0]
+  }
+
   async returnTeams(season) {
     const teams = await this.get(`?season=${season}`)
     const returnTeams = teams.teams.map( async team => {
