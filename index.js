@@ -7,6 +7,7 @@ const schema = require('./Schema')
 
 const server = new ApolloServer({
   schema,
+  introspection: true,
   dataSources: () => {
     return {
       playerAPI: new PlayerAPI(),
