@@ -1,25 +1,28 @@
+const validateSeasons = require('../utilities/season.js')
+
 const Resolvers = {
   Player: {
-    team:  async (root, {}, { dataSources }) => {
-      return await dataSources.teamAPI.returnTeam( root.currentTeam.id )
+    team:  async ( parent, {}, { dataSources }) => {
+      if( parent.active === false) return
+      return await dataSources.teamAPI.returnTeam( parent.currentTeam.id )
     },
   },
   Team: {
-    players: async (root, {}, { dataSources }) => {
-      const players = await dataSources.teamAPI.returnRoster( root.id )
+    players: async ( parent, {}, { dataSources }) => {
+      const players = await dataSources.teamAPI.returnRoster( parent.id, parent.season )
       const promises = players.map(async player => {
-        return await dataSources.playerAPI.returnPlayer(player.person.id)
+        return await dataSources.playerAPI.returnPlayer(player.person.id )
       })
       return Promise.all(promises)
     },
-    division: async( root, {}, { dataSources }) => {
-      return await dataSources.divisionAPI.returnDivision(root.division.id)
+    division: async( parent, {}, { dataSources }) => {
+      return await dataSources.divisionAPI.returnDivision( parent.division.id )
     },
-    conference: async( root, {}, { dataSources }) => {
-      return await dataSources.conferenceAPI.returnConference(root.conference.id)
+    conference: async( parent, {}, { dataSources }) => {
+      return await dataSources.conferenceAPI.returnConference( parent.conference.id ) 
     },
-    stats: async( root, {}, { dataSources }) => {
-      return await dataSources.teamAPI.returnStats(root.id)
+    stats: async( parent, {}, { dataSources }) => {
+      return await dataSources.teamAPI.returnStats( parent.id )
     },
   },
   Query: {
@@ -27,11 +30,13 @@ const Resolvers = {
       return await dataSources.playerAPI.returnPlayer(id)
       
     },
-    getTeams: async (_, {}, { dataSources }) => {
-      return await dataSources.teamAPI.returnTeams()
+    getTeams: async (_, { season }, { dataSources }) => {
+      validateSeasons(season)
+      return await dataSources.teamAPI.returnTeams( season )
     },
-    getTeam: async (_, { id }, { dataSources }) => {
-      return await dataSources.teamAPI.returnTeam(id)
+    getTeam: async (_, { id, season }, { dataSources }) => {
+      validateSeasons(season)
+      return await dataSources.teamAPI.returnTeam(id, season)
     },
     getDivisions: async (_, {}, { dataSources }) => {
       return await dataSources.divisionAPI.returnDivisions()
