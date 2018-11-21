@@ -1,5 +1,3 @@
-const moment = require('moment')
-
 const validateSeasons = (season) => {
   //Ensure the years are valid length and format
   if( season.toString().length !== 8 ) {
@@ -20,8 +18,9 @@ const validateSeasons = (season) => {
   }
 
   //Check if year two is valid
-  const currentMonth = moment().month() + 1
-  const maxYear = currentMonth >= 7 && currentMonth <= 12 ? moment().year() + 1 : moment().year()
+  const date = new Date()
+  const currentMonth = date.getMonth() + 1
+  const maxYear = currentMonth >= 7 && currentMonth <= 12 ? date.getFullYear() + 1 : date.getFullYear()
   
   if( yearTwo > maxYear ) {
     throw new Error(`season year two must be less than ${maxYear}`)
