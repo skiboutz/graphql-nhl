@@ -30,6 +30,29 @@ const Resolvers = {
       return await dataSources.playerAPI.returnPlayer(id)
       
     },
+    getPlayersByName: async (_, { name, season }, { dataSources }) => {
+      validateSeasons(season)
+      const teams = await dataSources.teamAPI.returnTeams( season )
+      const promises = teams.map( async team => {
+        return await dataSources.teamAPI.returnRoster( team.id, season )
+      })
+      const allPlayers = await Promise.all(promises)
+
+      const playerList = allPlayers.reduce( (accumulater, team) =>[
+        ...accumulater,
+        ...team
+      ],[])
+
+      const shortRoster = playerList.filter(player => {
+        return player.person.fullName.toLowerCase().includes( name.toLowerCase() )
+      })
+      
+      const listPromsies = shortRoster.map( async player => {
+        return await dataSources.playerAPI.returnPlayer( player.person.id )
+      })
+      return await Promise.all(listPromsies)
+      
+    },
     getTeams: async (_, { season }, { dataSources }) => {
       validateSeasons(season)
       return await dataSources.teamAPI.returnTeams( season )

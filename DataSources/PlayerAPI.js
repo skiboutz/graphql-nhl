@@ -5,6 +5,7 @@ class PlayerAPI extends RESTDataSource {
     super()
     this.baseURL = 'https://statsapi.web.nhl.com/api/v1/people/'
   }
+
   async returnPlayer(id) {
     const playerData = await this.get(`/${id}`)
     const player = playerData.people[0]
