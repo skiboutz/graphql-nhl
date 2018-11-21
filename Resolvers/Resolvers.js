@@ -22,7 +22,7 @@ const Resolvers = {
       return await dataSources.conferenceAPI.returnConference( parent.conference.id ) 
     },
     stats: async( parent, {}, { dataSources }) => {
-      return await dataSources.teamAPI.returnStats( parent.id )
+      return await dataSources.teamAPI.returnStats( parent.id, parent.season )
     },
   },
   Query: {
