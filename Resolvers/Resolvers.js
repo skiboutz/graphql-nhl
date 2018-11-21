@@ -30,7 +30,7 @@ const Resolvers = {
     getTeams: async (_, {}, { dataSources }) => {
       return await dataSources.teamAPI.returnTeams()
     },
-    getTeam: async (_, { id, getRoster }, { dataSources }) => {
+    getTeam: async (_, { id }, { dataSources }) => {
       return await dataSources.teamAPI.returnTeam(id)
     },
     getDivisions: async (_, {}, { dataSources }) => {
