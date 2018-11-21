@@ -4,7 +4,7 @@ const Resolvers = {
   Player: {
     team:  async ( parent, {}, { dataSources }) => {
       if( parent.active === false) return
-      return await dataSources.teamAPI.returnTeam( parent.currentTeam.id )
+      return await dataSources.teamAPI.returnTeam( parent.currentTeam.id, parent.season )
     },
   },
   Team: {
@@ -26,8 +26,9 @@ const Resolvers = {
     },
   },
   Query: {
-    getPlayer: async (_, { id }, { dataSources }) => {
-      return await dataSources.playerAPI.returnPlayer(id)
+    getPlayer: async (_, { id, season }, { dataSources }) => {
+      validateSeasons(season)
+      return await dataSources.playerAPI.returnPlayer(id, season)
       
     },
     getPlayersByName: async (_, { name, season }, { dataSources }) => {
@@ -48,7 +49,7 @@ const Resolvers = {
       })
       
       const listPromsies = shortRoster.map( async player => {
-        return await dataSources.playerAPI.returnPlayer( player.person.id )
+        return await dataSources.playerAPI.returnPlayer( player.person.id, season )
       })
       return await Promise.all(listPromsies)
       
