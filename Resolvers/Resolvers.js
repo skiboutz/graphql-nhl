@@ -10,8 +10,8 @@ const Resolvers = {
   },
   Schedule: {
     games: async ( parent, {}, { dataSources }) => {
-      const games = await dataSources.scheduleAPI.returnGames( parent.date )
-      const gamesWithTeams = games.map( async game => {
+      const games = await dataSources.scheduleAPI.returnGames( parent.teamId, parent.date )
+      let gamesWithTeams = games.map( async game => {
         const awayTeam = await dataSources.teamAPI.returnTeam(game.awayTeamId, game.season)
         const homeTeam = await dataSources.teamAPI.returnTeam(game.homeTeamId, game.season)
         game.awayTeam = awayTeam
@@ -71,6 +71,10 @@ const Resolvers = {
     getSchedule: async (_, { startDate, endDate }, { dataSources }) => {
       const scheduleDate = validateDates(startDate, endDate)
       return await dataSources.scheduleAPI.returnSchedule( scheduleDate.startDate, scheduleDate.endDate )
+    },
+    getScheduleByTeam: async (_, { teamId, startDate, endDate }, { dataSources }) => {
+      const scheduleDate = validateDates(startDate, endDate)
+      return await dataSources.scheduleAPI.returnScheduleByTeam( teamId, scheduleDate.startDate, scheduleDate.endDate )
     },
     getTeams: async (_, { season }, { dataSources }) => {
       validateSeasons(season)

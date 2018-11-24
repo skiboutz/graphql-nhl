@@ -21,6 +21,7 @@ const Query = `
 		getPlayer(id: Int!, season: Int!): Player!,
 		getPlayersByName(name: String!, season: Int!): [Player!]!,
 		getSchedule(startDate: String!, endDate: String!): [Schedule],
+		getScheduleByTeam(teamId: Int!, startDate: String!, endDate: String!): [Schedule],
 		getTeams(season: Int!): [Team!]!,
 		getTeam(id: Int!, season: Int!): Team!,
 		getTeamByName(name: String!, season: Int!): Team!,
