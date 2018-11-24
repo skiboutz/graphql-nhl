@@ -2,6 +2,8 @@
 
 Node.js and Apollo Server GraphQL implementation of the NHL.com (undocumented) API
 
+[![Known Vulnerabilities](https://snyk.io/test/github/calder12/graphql-nhl/badge.svg)](https://snyk.io/test/github/calder12/graphql-nhl)
+
 ## Getting Started
 
 * Run ```npm install``` in the root directory
