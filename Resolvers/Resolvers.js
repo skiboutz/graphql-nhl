@@ -1,10 +1,24 @@
 const validateSeasons = require('../utilities/season.js')
+const validateDates = require('../utilities/dates.js')
 
 const Resolvers = {
   Player: {
     team:  async ( parent, {}, { dataSources }) => {
       if( parent.active === false) return
       return await dataSources.teamAPI.returnTeam( parent.currentTeam.id, parent.season )
+    },
+  },
+  Schedule: {
+    games: async ( parent, {}, { dataSources }) => {
+      const games = await dataSources.scheduleAPI.returnGames( parent.date )
+      const gamesWithTeams = games.map( async game => {
+        const awayTeam = await dataSources.teamAPI.returnTeam(game.awayTeamId, game.season)
+        const homeTeam = await dataSources.teamAPI.returnTeam(game.homeTeamId, game.season)
+        game.awayTeam = awayTeam
+        game.homeTeam = homeTeam
+        return game
+      })
+      return gamesWithTeams
     },
   },
   Team: {
@@ -53,6 +67,10 @@ const Resolvers = {
       })
       return await Promise.all(listPromsies)
       
+    },
+    getSchedule: async (_, { startDate, endDate }, { dataSources }) => {
+      const scheduleDate = validateDates(startDate, endDate)
+      return await dataSources.scheduleAPI.returnSchedule( scheduleDate.startDate, scheduleDate.endDate )
     },
     getTeams: async (_, { season }, { dataSources }) => {
       validateSeasons(season)

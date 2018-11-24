@@ -1,7 +1,10 @@
 
 const Conference = require('./TypeDefs/Conference')
 const Division = require('./TypeDefs/Division')
+const Game = require('./TypeDefs/Game')
 const Player = require('./TypeDefs/Player')
+const Schedule = require('./TypeDefs/Schedule')
+const Status = require('./TypeDefs/Status')
 const Team = require('./TypeDefs/Team')
 const TeamStats = require('./TypeDefs/TeamStats')
 const TimeZone = require('./TypeDefs/TimeZone')
@@ -11,15 +14,16 @@ const { makeExecutableSchema } = require('graphql-tools')
 
 const Query = `
   type Query {
+		getConference(id: Int!): Conference!,
+		getConferences: [Conference!]!,
+		getDivision(id: Int!): Division!,
+		getDivisions: [Division!]!,
 		getPlayer(id: Int!, season: Int!): Player!,
 		getPlayersByName(name: String!, season: Int!): [Player!]!,
+		getSchedule(startDate: String!, endDate: String!): [Schedule],
 		getTeams(season: Int!): [Team!]!,
 		getTeam(id: Int!, season: Int!): Team!,
 		getTeamByName(name: String!, season: Int!): Team!,
-		getDivisions: [Division!]!,
-		getDivision(id: Int!): Division!,
-		getConferences: [Conference!]!,
-		getConference(id: Int!): Conference!
   }
 `
 
@@ -27,8 +31,11 @@ const schema = makeExecutableSchema({
   typeDefs: [
 		Conference, 
 		Division,
+		Game,
 		Player, 
 		Query, 
+		Schedule,
+		Status,
 		Team,
 		TeamStats,
 		TimeZone,
