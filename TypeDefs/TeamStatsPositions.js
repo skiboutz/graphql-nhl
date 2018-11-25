@@ -25,8 +25,8 @@ const TeamStatsPositions = `
     faceOffsWon: String,
     faceOffsLost: String,
     faceOffWinPercentage: String,
-    shootingPctg: String,
-    savePctg: String
+    shootingPctRank: String,
+    savePctRank: String
   }
 `
 
