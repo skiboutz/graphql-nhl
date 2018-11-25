@@ -38,6 +38,9 @@ const Resolvers = {
     stats: async( parent, {}, { dataSources }) => {
       return await dataSources.teamAPI.returnStats( parent.id, parent.season )
     },
+    statPositions: async( parent, {}, { dataSources }) => {
+      return await dataSources.teamAPI.returnStatPositions( parent.id, parent.season )
+    },
   },
   Query: {
     getPlayer: async (_, { id, season }, { dataSources }) => {

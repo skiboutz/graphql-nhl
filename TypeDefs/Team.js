@@ -13,6 +13,7 @@ const Team = `
 		officialSiteUrl: String
     players:[Player]
     stats: TeamStats
+    statPositions: TeamStatsPositions
     season: Int
   }
 `
