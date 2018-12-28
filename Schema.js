@@ -10,6 +10,9 @@ const TeamStats = require('./TypeDefs/TeamStats')
 const TeamStatsPositions = require('./TypeDefs/TeamStatsPositions')
 const TimeZone = require('./TypeDefs/TimeZone')
 const Venue = require('./TypeDefs/Venue')
+const Prospect = require('./TypeDefs/Prospect')
+const PlayerPosition = require('./TypeDefs/PlayerPosition')
+const Rank = require('./TypeDefs/Rank')
 const Resolvers = require('./Resolvers/Resolvers')
 const { makeExecutableSchema } = require('graphql-tools')
 
@@ -26,6 +29,8 @@ const Query = `
 		getTeams(season: Int!): [Team!]!,
 		getTeam(id: Int!, season: Int!): Team!,
 		getTeamByName(name: String!, season: Int!): Team!,
+		getProspects: [Prospect!],
+		getProspect(id: Int!): Prospect!,
   }
 `
 
@@ -42,7 +47,10 @@ const schema = makeExecutableSchema({
 		TeamStats,
 		TeamStatsPositions,
 		TimeZone,
-		Venue, 
+		Venue,
+		Prospect,
+		PlayerPosition,
+		Rank	 
 	],
   resolvers: Resolvers,
 })

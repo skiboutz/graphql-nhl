@@ -29,7 +29,9 @@ class TeamAPI extends RESTDataSource {
 
   async returnRoster(id, season) {
     const roster = await this.get(`/${id}?expand=team.roster&season=${season}`)
-    return roster.teams[0].roster.roster
+    return roster.teams[0].roster.roster.sort((a,b) => {
+      return a.person.fullName.localeCompare(b.person.fullName)
+    })
   }
 
   async returnStats(id, season) {
